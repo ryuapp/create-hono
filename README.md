@@ -1,3 +1,5 @@
+Hello
+
 # Create Hono
 
 Create a Hono application from starter templates.
