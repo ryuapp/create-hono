@@ -1,17 +1,11 @@
-import { build } from 'esbuild'
+/// <reference types="bun-types" />
 
-const b = () =>
-  build({
-    bundle: true,
-    entryPoints: ['./src/index.ts'],
-    banner: {
-      js: '#!/usr/bin/env node',
-    },
-    platform: 'node',
-    outfile: 'bin',
-    format: 'cjs',
-    // For debug
-    minify: false,
-  })
+await Bun.build({
+  entryPoints: ['./src/index.ts'],
+  platform: 'node',
+  outfile: 'bin',
+  // For debug
+  minify: false,
+})
 
-Promise.all([b()])
+export { }
