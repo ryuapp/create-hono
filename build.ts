@@ -9,7 +9,7 @@ const b = () =>
     },
     platform: 'node',
     outfile: 'bin',
-    format: 'esm',
+    format: 'cjs',
     // For debug
     minify: false,
   })
