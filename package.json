@@ -40,7 +40,7 @@
     "giget": "1.2.3",
     "nanospinner": "^1.1.0",
     "np": "^10.2.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
     "vitest": "^0.34.6"
