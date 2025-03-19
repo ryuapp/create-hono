@@ -1,9 +1,8 @@
+import { execa, execaSync } from 'execa'
+import { afterAll, describe, expect, it } from 'vitest'
 import { Buffer } from 'node:buffer'
 import { existsSync, rmSync } from 'node:fs'
 import { cwd } from 'node:process'
-import { execa, execaSync } from 'execa'
-import type { ExecaChildProcess } from 'execa'
-import { afterAll, describe, expect, it } from 'vitest'
 import { checkPackageManagerInstalled } from './dependencies'
 
 let cmdBuffer = ''
@@ -107,8 +106,9 @@ describe('dependenciesHook', async () => {
       })
 
       it('should have installed dependencies', async () => {
-        while (!existsSync(`${targetDirectory}/node_modules`))
-          await timeout(5_000) // 3 seconds;
+        while (!existsSync(`${targetDirectory}/node_modules`)) {
+          await timeout(5_000)
+        } // 3 seconds;
 
         expect(
           existsSync(`${targetDirectory}/node_modules`),
@@ -151,11 +151,11 @@ const timeout = (milliseconds: number) =>
  * https://github.com/netlify/cli/blob/0c91f20e14e84e9b21d39d592baf10c7abd8f37c/tests/integration/utils/handle-questions.js#L11
  */
 const handleQuestions = (
-  process: ExecaChildProcess<string>,
+  process: any,
   questions: { question: string; answer: string | string[] }[],
 ) =>
   new Promise<string>((res) => {
-    process.stdout?.on('data', (data) => {
+    process.stdout?.on('data', (data: string) => {
       cmdBuffer = (cmdBuffer + data).replace(/\n/g, '')
       const index = questions.findIndex(({ question }) =>
         cmdBuffer.includes(question),
@@ -170,16 +170,17 @@ const handleQuestions = (
     })
   })
 
-const writeResponse = (
-  process: ExecaChildProcess<string>,
-  responses: string[],
-) => {
+const writeResponse = (process: any, responses: string[]) => {
   const response = responses.shift()
-  if (!response) return
+  if (!response) {
+    return
+  }
 
-  if (!response.endsWith(CONFIRM))
+  if (!response.endsWith(CONFIRM)) {
     process.stdin?.write(Buffer.from(response + CONFIRM))
-  else process.stdin?.write(Buffer.from(response))
+  } else {
+    process.stdin?.write(Buffer.from(response))
+  }
 }
 
 const answerWithValue = (value = '') => [value, CONFIRM].flat()
