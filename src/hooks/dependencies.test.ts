@@ -1,9 +1,9 @@
-import { Buffer } from 'node:buffer'
-import { existsSync, rmSync } from 'node:fs'
-import { cwd } from 'node:process'
 import { execa, execaSync } from 'execa'
 import type { ExecaChildProcess } from 'execa'
 import { afterAll, describe, expect, it } from 'vitest'
+import { Buffer } from 'node:buffer'
+import { existsSync, rmSync } from 'node:fs'
+import { cwd } from 'node:process'
 import { checkPackageManagerInstalled } from './dependencies'
 
 let cmdBuffer = ''
@@ -107,8 +107,9 @@ describe('dependenciesHook', async () => {
       })
 
       it('should have installed dependencies', async () => {
-        while (!existsSync(`${targetDirectory}/node_modules`))
-          await timeout(5_000) // 3 seconds;
+        while (!existsSync(`${targetDirectory}/node_modules`)) {
+          await timeout(5_000)
+        } // 3 seconds;
 
         expect(
           existsSync(`${targetDirectory}/node_modules`),
@@ -175,11 +176,15 @@ const writeResponse = (
   responses: string[],
 ) => {
   const response = responses.shift()
-  if (!response) return
+  if (!response) {
+    return
+  }
 
-  if (!response.endsWith(CONFIRM))
+  if (!response.endsWith(CONFIRM)) {
     process.stdin?.write(Buffer.from(response + CONFIRM))
-  else process.stdin?.write(Buffer.from(response))
+  } else {
+    process.stdin?.write(Buffer.from(response))
+  }
 }
 
 const answerWithValue = (value = '') => [value, CONFIRM].flat()
